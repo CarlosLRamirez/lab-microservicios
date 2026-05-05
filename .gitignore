@@ -1,0 +1,13 @@
+# Dependencias de Node
+node_modules/
+npm-debug.log
+
+# Docker
+.dockerignore
+
+# Archivos de sistema/SO
+.DS_Store
+Thumbs.db
+
+# Variables de entorno (Seguridad)
+.env
