@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Log de Microservicios</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 30px; background: #eceff1; }
+        .controls { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; margin-bottom: 20px; }
+        button { padding: 12px 20px; font-size: 14px; cursor: pointer; margin: 5px; border-radius: 5px; border: none; color: white; font-weight: bold; transition: 0.3s; }
+        .btn-users { background-color: #0288d1; }
+        .btn-users:hover { background-color: #01579b; }
+        .btn-products { background-color: #388e3c; }
+        .btn-products:hover { background-color: #1b5e20; }
+        .btn-clear { background-color: #757575; }
+        
+        #log-container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            text-align: left; 
+            background: #263238; 
+            color: #80cbc4; 
+            padding: 15px; 
+            border-radius: 8px; 
+            height: 400px; 
+            overflow-y: auto; 
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: inset 0 0 10px #000;
+        }
+        .log-entry { border-bottom: 1px solid #37474f; padding: 8px 0; font-size: 13px; }
+        .timestamp { color: #ffca28; font-weight: bold; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Laboratorio de Microservicios</h1>
+    
+    <div class="controls">
+        <button class="btn-users" onclick="llamarAPI(3000, 'users')">Consultar Usuarios</button>
+        <button class="btn-products" onclick="llamarAPI(3001, 'products')">Consultar Productos</button>
+        <button class="btn-clear" onclick="document.getElementById('log-container').innerHTML = ''">Limpiar Log</button>
+    </div>
+
+    <div id="log-container">
+        </div>
+
+    <script>
+        async function llamarAPI(puerto, endpoint) {
+            const container = document.getElementById('log-container');
+            const timestamp = new Date().toLocaleTimeString();
+            
+            try {
+                 //esto lo tendremos que cambiar en producción para que no apunte a localhost
+                const response = await fetch(`http://localhost:${puerto}/${endpoint}`);
+               
+                const data = await response.json();
+                
+                // Creamos el nuevo elemento de log
+                const entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.innerHTML = `<span class="timestamp">[${timestamp}]</span> <strong>${endpoint.toUpperCase()}:</strong> ${JSON.stringify(data)}`;
+                
+                // Lo agregamos al inicio para ver lo más nuevo arriba
+                container.prepend(entry);
+                
+            } catch (error) {
+                const entry = document.createElement('div');
+                entry.className = 'log-entry';
+                entry.style.color = '#ff5252';
+                entry.innerHTML = `<span class="timestamp">[${timestamp}]</span> <strong>ERROR:</strong> No se pudo conectar con el puerto ${puerto}`;
+                container.prepend(entry);
+            }
+        }
+    </script>
+</body>
+</html>

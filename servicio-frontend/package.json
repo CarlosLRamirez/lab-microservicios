@@ -1,0 +1,6 @@
+{
+  "name": "servicio-frontend",
+  "version": "1.0.0",
+  "description": "Interfaz de monitoreo para el Laboratorio",
+  "private": true
+}

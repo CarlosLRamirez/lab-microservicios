@@ -1,0 +1,37 @@
+
+services:
+  # --- Microservicio de Usuarios ---
+  usuarios:
+    build: ./servicio-usuarios # Ruta a su carpeta y Dockerfile
+    container_name: mslab-usuarios
+    ports:
+      - "3000:3000" # [Puerto PC]:[Puerto Contenedor]
+    networks:
+      - mslab-network
+
+  # --- Microservicio de Productos ---
+  productos:
+    build: ./servicio-productos
+    container_name: mslab-productos
+    ports:
+      - "3001:3001"
+    networks:
+      - mslab-network
+
+  # --- Microservicio Frontend ---
+  frontend:
+    build: ./servicio-frontend
+    container_name: mslab-frontend
+    ports:
+      - "8080:80" # Entraremos por http://localhost:8080
+    networks:
+      - mslab-network
+    # Le decimos que espere a que el contenedor arranque
+    depends_on:
+      - usuarios
+      - productos
+
+# Definimos una red privada para que se vean entre ellos
+networks:
+  mslab-network:
+    driver: bridge
