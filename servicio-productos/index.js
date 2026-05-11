@@ -7,14 +7,19 @@ const PORT = 3001;
 app.use(cors());
 
 app.get('/products', (req, res) => {
-    res.json({ 
-        service: "Productos", 
-        data: ["Laptop", "Mouse", "Teclado"], 
-        version: "1.0",
-        timestamp: new Date().toISOString()
-    });
+  res.json({
+    service: "Productos",
+    data: ["Laptop", "Mouse", "Teclado"],
+    version: "1.0",
+    timestamp: new Date().toISOString()
+  });
+});
+
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Servicio Productos corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servicio Productos corriendo en http://localhost:${PORT}`);
 });

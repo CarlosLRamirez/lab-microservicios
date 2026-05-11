@@ -7,14 +7,19 @@ const PORT = 3000;
 app.use(cors());
 
 app.get('/users', (req, res) => {
-    res.json({ 
-        service: "Usuarios", 
-        data: ["Alice", "Bob", "Charlie"], 
-        version: "1.0",
-        timestamp: new Date().toISOString()
-    });
+  res.json({
+    service: "Usuarios",
+    data: ["Alice", "Bob", "Charlie"],
+    version: "1.0",
+    timestamp: new Date().toISOString()
+  });
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
+
 app.listen(PORT, () => {
-    console.log(`🚀 Servicio Usuarios corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servicio Usuarios corriendo en http://localhost:${PORT}`);
 }); 
